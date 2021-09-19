@@ -1,0 +1,11 @@
+name: shopify_shiny
+title:
+username:
+account: superp0tat0
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 4681338
+bundleId: 5047911
+url: https://superp0tat0.shinyapps.io/shopify_shiny/
+when: 1632027698.31752
+lastSyncTime: 1632027698.31753
