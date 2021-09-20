@@ -88,9 +88,12 @@ filter_dataset_trend <- function(df, userid, shopid, payment, time_range, rm_sto
   }
 }
 
-filter_dataset_statistics <- function(df, userid, shopid, payment, time_range) {
+filter_dataset_statistics <- function(df, userid, shopid, exclude_shopid, payment, time_range) {
+  if(is.null(exclude_shopid)) {exclude_shopid = ""}
+  exclude_shopid = sapply(unlist(strsplit(exclude_shopid, ",")), as.numeric)
   filtered_df = filter_dataset_trend(df, userid, shopid, payment, time_range, rm_stop = T)
   result <- filtered_df %>%
+    filter(filter_helper_id(shop_id, exclude_shopid, in_ops = F)) %>%
     mutate(price_per_item = order_amount / total_items) %>%
     select(shop_id, user_id, order_amount, price_per_item, created_at_date, created_at_time)
 }

@@ -24,6 +24,7 @@ ui <- dashboardPage(
       menuItem("Statistics Panel Filter", tabName = "statistics", startExpanded = F,
                menuSubItem(icon = NULL, tabName = "user_id", uiOutput("user_id2")),
                menuSubItem(icon = NULL, tabName = "shop_id", uiOutput("shop_id2")),
+               menuSubItem(icon = NULL, tabName = "shop_id", uiOutput("exclude_shop_id2")),
                menuSubItem(icon = NULL, tabName = "other_filter_time", uiOutput("time_range_3"))
       )
     )
@@ -56,7 +57,20 @@ ui <- dashboardPage(
                                 background-color: #FFFFFF;
                                 }
 
-                                '))
+                                ')),
+        tags$script('
+                        var dimension = [0, 0];
+                        $(document).on("shiny:connected", function(e) {
+                        dimension[0] = window.innerWidth;
+                        dimension[1] = window.innerHeight;
+                        Shiny.onInputChange("dimension", dimension);
+                        });
+                        $(window).resize(function(e) {
+                        dimension[0] = window.innerWidth;
+                        dimension[1] = window.innerHeight;
+                        Shiny.onInputChange("dimension", dimension);
+                        });
+                        ')
       ),
       useShinyjs(),
       introjsUI(),
@@ -138,7 +152,7 @@ ui <- dashboardPage(
       
       fluidPage( div(id = "statistics_panel", 
                      column(width = 6,
-                            div(style = "overflow-y:scroll; max-height: 500px",
+                            div(style = "overflow-y:scroll; max-height: 50%",
                                 dataTableOutput("statistics_table", width = "auto")),
                             fluidRow(infoBoxOutput("report1",width=6), infoBoxOutput("report4",width=6)),
                             fluidRow(infoBoxOutput("report2",width=6), infoBoxOutput("report5",width=6)),
@@ -152,9 +166,8 @@ ui <- dashboardPage(
       ),
       
       fluidPage(div(id = "resume_panel", align="center",
-                    column(12, style = "overflow-y:scroll; max-height: 800px",
-                           img(src = "https://raw.githubusercontent.com/superp0tat0/superp0tat0.github.io/master/files_posts/sth_spfy.png",
-                              width = 1440))
+                    column(12,
+                           uiOutput("resume", style = "overflow-y:scroll"))
                     )
       )
   )

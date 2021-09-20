@@ -53,9 +53,15 @@ server <- function(input, output, session) {
     textInput(inputId = "user_id_input2", label = "User ID",
               value = "", width = "100%", placeholder = "914, 788, 848 ...")
   )
+  
   output$shop_id2 = renderUI(
     textInput(inputId = "shop_id_input2", label = "Shop ID",
               value = "83", width = "100%", placeholder = "53, 92, 44 ...")
+  )
+  
+  output$exclude_shop_id2 = renderUI(
+    textInput(inputId = "exclude_shop_id_input2", label = "Exclude Shop ID",
+              value = "", width = "100%", placeholder = "53, 92, 44 ...")
   )
   
   output$payment2 = renderUI(
@@ -93,7 +99,7 @@ server <- function(input, output, session) {
                           "<b> payment_method: </b>", summary_dataset()$payment_method, "<br/>",
                           "<b> created_at: </b>", summary_dataset()$created_at, "<br/>"
                           ),
-            hoverinfo = "y", height = 810, width = 1440) %>%
+            hoverinfo = "y", width = 0.8*as.numeric(input$dimension[1]), height = 0.8*as.numeric(input$dimension[2])) %>%
       layout(title = 'Transaction Summary Box Plots', plot_bgcolor = "#e5ecf6", xaxis = list(title = 'Time'), 
              yaxis = list(title = 'Order Amount in Dollars')) %>%
       onRender(addHoverBehavior)
@@ -101,7 +107,7 @@ server <- function(input, output, session) {
   
   output$hover_info <- renderUI({
     if(isTRUE(input[["hovering"]])){
-      style <- paste0("left: ", input[["left_px"]] + 100, "px;", # 4 = border-width after
+      style <- paste0("left: ", input[["left_px"]] + 0.025*as.numeric(input$dimension[1]), "px;", # 4 = border-width after
                       "top: ", input[["top_px"]] - 60, "px;") # 24 = line-height/2 * number of lines; 2 = padding; 1 = border thickness
       div(
         class = "arrow_box", style = style,
@@ -117,6 +123,7 @@ server <- function(input, output, session) {
     filter_dataset_trend(raw_df,input$user_id_input, input$shop_id_input, input$payment_input, input$time_slider_2)
     )
   })
+  
   output$trend_panel <- renderPlotly({
     ggplotly(ggplot(trend_dataset(),
                     aes(x = created_at_date, y = total_items, color = user_id:shop_id, size = order_amount,
@@ -128,7 +135,7 @@ server <- function(input, output, session) {
                labs(x = "Time in Day",
                     y = "Total items per transaction",
                     title = "Information of Transactions with User, Shop, Price, Amount and Time")
-               , height = 810, width = 1440
+               , width = 0.8*as.numeric(input$dimension[1]), height = 0.8*as.numeric(input$dimension[2])
              )
   })
   
@@ -137,7 +144,7 @@ server <- function(input, output, session) {
   # Upper Right: Transaction with value per transaction
   # Upper left: Transaction with value per item
   statistics_dataset <- reactive({ execute_safely(
-    filter_dataset_statistics(raw_df,input$user_id_input2, input$shop_id_input2, "ALL", input$time_slider_3)
+    filter_dataset_statistics(raw_df,input$user_id_input2, input$shop_id_input2, input$exclude_shop_id_input2, "ALL", input$time_slider_3)
     )
   })
   
@@ -145,13 +152,15 @@ server <- function(input, output, session) {
     df <- statistics_dataset() %>% group_by(shop_id, user_id, created_at_date) %>%
       summarize(mean_amount = mean(order_amount))
     
-    ggplot(df, aes(x = created_at_date, y = mean_amount)) +
-      geom_line(size = 1) + 
-      theme(legend.position = "none",
-            panel.background = element_rect(fill = "#e5ecf6", color = "white")) +
-      labs(x = "Time in Day",
-           y = "Value per Transaction",
-           title = "Time Series of Transaction Value")
+    ggplotly(ggplot(df, aes(x = created_at_date, y = mean_amount)) +
+                geom_line(size = 1) + 
+                theme(legend.position = "none",
+                      panel.background = element_rect(fill = "#e5ecf6", color = "white")) +
+                labs(x = "Time in Day",
+                     y = "Value per Transaction",
+                     title = "Time Series of Transaction Value"),
+             width = 0.4*as.numeric(input$dimension[1]), height = 0.4*as.numeric(input$dimension[2])
+             )
   })
   
   output$statistics_item <- renderPlotly({
@@ -164,28 +173,40 @@ server <- function(input, output, session) {
                      panel.background = element_rect(fill = "#e5ecf6", color = "white")) +
                labs(x = "Time in Day",
                     y = "Value per Item",
-                    title = "Time Series of Item Value"))
+                    title = "Time Series of Item Value"),
+             width = 0.4*as.numeric(input$dimension[1]), height = 0.4*as.numeric(input$dimension[2])
+             )
   })
   
   output$statistics_table <- renderDataTable(data.table(statistics_dataset()), options = list(pageLength = 10))
   
   # Report the metrics by transaction
   output$report1 <- renderInfoBox(infoBox("Maximum Value Over Order",
-                                          max(statistics_dataset()$order_amount),width = 3, icon = icon("area-chart")))
+                                          max(statistics_dataset()$order_amount),
+                                          width = 3, icon = icon("area-chart")))
   output$report2 <- renderInfoBox(infoBox("Average Value Over Order",
-                                          mean(statistics_dataset()$order_amount),width = 3, icon = icon("area-chart")))
+                                          round(mean(statistics_dataset()$order_amount),3),
+                                          width = 3, icon = icon("area-chart")))
   output$report3 <- renderInfoBox(infoBox("Median Value Over Order",
-                                          median(statistics_dataset()$order_amount),width = 3, icon = icon("area-chart")))
+                                          median(statistics_dataset()$order_amount),
+                                          width = 3, icon = icon("area-chart")))
   # Report the metrics by item
-  output$report4 <- renderInfoBox(infoBox("Maximum Value Over Item",max(statistics_dataset()$price_per_item),width = 3))
-  output$report5 <- renderInfoBox(infoBox("Average Value Over Item",mean(statistics_dataset()$price_per_item),width = 3))
-  output$report6 <- renderInfoBox(infoBox("Median Value Over Item",median(statistics_dataset()$price_per_item),width = 3))
+  output$report4 <- renderInfoBox(infoBox("Maximum Value Over Item",
+                                          max(statistics_dataset()$price_per_item),
+                                          width = 3))
+  output$report5 <- renderInfoBox(infoBox("Average Value Over Item",
+                                          round(mean(statistics_dataset()$price_per_item),3),
+                                          width = 3))
+  output$report6 <- renderInfoBox(infoBox("Median Value Over Item",
+                                          median(statistics_dataset()$price_per_item),
+                                          width = 3))
   
   # Lower Right
   # The filtered Data Table
   
   # RESUME TABLE CONSTRUCTION ---------------------------------------------------------------------------
-  
+  output$resume <- renderUI(img(src = "https://raw.githubusercontent.com/superp0tat0/superp0tat0.github.io/master/files_posts/sth_spfy.png",
+                                   width = 0.8*as.numeric(input$dimension[1])))
   # DYNAMIC RENDER RULES --------------------------------------------------------------------------------
   
   observeEvent("", {
