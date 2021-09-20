@@ -2,7 +2,7 @@
 
 Link: https://superp0tat0.shinyapps.io/shopify_shiny/
 
-
+![demo_shiny](https://raw.githubusercontent.com/superp0tat0/superp0tat0.github.io/master/files_posts/project_shiny.png)
 
 ## Backgrounds
 Hey, this is Luke. At the time I am writing this readme. I am a data scientist intern working at Bayer and looking for a full time job after I officially graduate at November 2021.
