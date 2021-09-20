@@ -3,7 +3,7 @@
 Link: https://superp0tat0.shinyapps.io/shopify_shiny/ 
 
 
-**The above link only has 25 hours usage as I use free account. But this repo was up to date so feel free to build the app locally.**
+**The above link only has 25 hours usage. But this repo was up to date so feel free to build the app locally.**
 
 
 ![demo_shiny](https://raw.githubusercontent.com/superp0tat0/superp0tat0.github.io/master/files_posts/project_shiny.png)
