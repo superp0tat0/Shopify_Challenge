@@ -10,9 +10,9 @@
 
 ## Backgrounds
 
-Hey, this is Luke. At the time I am writing this readme. I am a data scientist intern working at Bayer and looking for a full time job after I officially graduate at November 2021.
+Hey, this is Luke. 
 
-I did this project with the engagement of my daily work and one data scienctist challenge related to data scientist position from Shopify. To demonstrate the importance of the reusability for data science project. I implement this dashboad and would like to share my belief.
+I did this project with the engagement of my daily work at Bayer and one data scienctist challenge from Shopify. To demonstrate the importance of the reusability for data science project. I implement this dashboad and would like to share my belief.
 
 ## Motivations
 
