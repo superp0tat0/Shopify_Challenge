@@ -27,7 +27,7 @@ Assume there are some Shopify sneaker shops are generating transactions data. Ho
 
 Although I think it would be fun to tackle the dashboard yourself. But for the analysis steps. You could check
 
-(Final Report)[https://github.com/superp0tat0/Shopify_Challenge/blob/master/Shopify%202022%20Winter%20Challenge.pdf]
+https://github.com/superp0tat0/Shopify_Challenge/blob/master/Shopify%202022%20Winter%20Challenge.pdf
 
 ## Future Plan
 
