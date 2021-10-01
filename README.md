@@ -1,7 +1,8 @@
 # Outliers Detection Dashboard
 
-Link: [https://superp0tat0.shinyapps.io/shopify_shiny/](https://superp0tat0.shinyapps.io/shopify_shiny/)
-Report: [Final Report](https://github.com/superp0tat0/Shopify_Challenge/blob/master/Shopify%202022%20Winter%20Challenge.pdf)
+**Link**: [https://superp0tat0.shinyapps.io/shopify_shiny/](https://superp0tat0.shinyapps.io/shopify_shiny/)
+
+**Report**: [Final Report](https://github.com/superp0tat0/Shopify_Challenge/blob/master/Shopify%202022%20Winter%20Challenge.pdf)
 
 **The above link only has 25 hours usage. But this repo was up to date so feel free to build the app locally.**
 
