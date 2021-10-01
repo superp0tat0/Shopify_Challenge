@@ -25,6 +25,12 @@ Assume there are some Shopify sneaker shops are generating transactions data. Ho
 
 ## Panel Functions
 
+![](https://raw.githubusercontent.com/superp0tat0/Shopify_Challenge/master/images/panel1.png)
+
+![](https://raw.githubusercontent.com/superp0tat0/Shopify_Challenge/master/images/panel2.png)
+
+![](https://raw.githubusercontent.com/superp0tat0/Shopify_Challenge/master/images/panel3.png)
+
 
 ## Future Plan
 
