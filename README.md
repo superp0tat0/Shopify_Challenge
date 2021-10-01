@@ -25,9 +25,27 @@ Assume there are some Shopify sneaker shops are generating transactions data. Ho
 
 ## Panel Functions
 
+**Summary Panel**
+
+The first panel contains an interactive histogram plot with X axis to be the time stamp and the Y axis to be the sales amount. But here we could see there are some outliers that are pushing the box to X axis. You could apply the filter on the left to remove certain outliers. For example, from the plot we could see `Shop ID` 42 is an outlier.
+
+* Try `exclude shop id 42` using `Exclude Shop ID` Box
+
 ![](https://raw.githubusercontent.com/superp0tat0/Shopify_Challenge/master/images/panel1.png)
 
+**Trend Panel**
+
+The second panel highlight the trend of each transaction by different shop and users. However, it no longer support too many transactions since the computational resouce limitations. You could also use the panel on the left to filter the transactions you want to see. 
+
+* Try set `User ID` to 607 and `Shop ID` to 42.
+
 ![](https://raw.githubusercontent.com/superp0tat0/Shopify_Challenge/master/images/panel2.png)
+
+**Statistics Panel**
+
+The third panel contains some interesting metrics and the time series plot for the average value for per order and average value per item for each day. For the left bottom corner you could see how those metrics behave with the exclusion of outliers. And for the left top corner you could see all the transactions after filtering.
+
+* Try `exclude shop id 42` using `Exclude Shop ID` Box
 
 ![](https://raw.githubusercontent.com/superp0tat0/Shopify_Challenge/master/images/panel3.png)
 
